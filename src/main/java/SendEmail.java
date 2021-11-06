@@ -13,14 +13,13 @@ import javax.mail.internet.MimeMessage;
 
 public class SendEmail {
     public static void main(String[] args) throws GeneralSecurityException {
-        // Recipient's email ID needs to be mentioned.
-//        String to = "CemenP93@gmail.com";
+        //Реализовать приложение на JavaFX (поставить через maven)
+        // для массовой рассылки электронной почты.
 
         // Sender's email ID needs to be mentioned
         String myEmail = "Semyonp93@gmail.com";
         final String username = "Semyonp93";//change accordingly
-        final String password = "QPwoeiruty123";//change accordingly
-        String opponentEmail = "CemenP93@gmail.com";
+        final String password = "**********";//change accordingly
         MailSSLSocketFactory sf = new MailSSLSocketFactory();
         sf.setTrustAllHosts(true);
 
@@ -40,16 +39,18 @@ public class SendEmail {
                 }
                 });
 
+        String[] opponentEmails = {"CemenP93@gmail.com", "Email_2@gmail.com", "Email_3@gmail.com"};
+        Message message;
         try {
-            Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(myEmail));
-            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(opponentEmail));
-            message.setSubject("Testing send email");
-            message.setText("Hello, this is sample for to check send email");
-            Transport transport = session.getTransport("smtp");
-            Transport.send(message);
-            System.out.println("Sent message successfully....");
-
+            for (int i = 0; i < opponentEmails.length; i++) {
+                message = new MimeMessage(session);
+                message.setFrom(new InternetAddress(myEmail));
+                message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(opponentEmails[i]));
+                message.setSubject("Hello");
+                message.setText("Hi, this is my bulk email.");
+                Transport transport = session.getTransport("smtp");
+                Transport.send(message);
+            }
         } catch (MessagingException e) {
             throw new RuntimeException(e);
         }
